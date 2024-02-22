@@ -1,19 +1,16 @@
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.BeforeClass;
 
 
 public class TestePilha {
     
     public static Pilha p;
-    public static int tamanhoPilha = 10;
+    public static int tamanhoPilha=10;
     
     //Método para inicializar a pilha
     @BeforeClass
-    public void inicializaPilha(){
+    public static void inicializaPilha(){
         p = new Pilha(tamanhoPilha);
     }
     
@@ -26,7 +23,6 @@ public class TestePilha {
         assertTrue(p.vazia());
         p.empilha("Elemento 1");
         assertFalse(p.vazia());
-        
     }
     
     @Test
@@ -37,10 +33,10 @@ public class TestePilha {
         Object retorno = p.desempilha();
         assertEquals("Elemento 1", p.verificaTopo());
         assertFalse(p.vazia());
-        
     }
     
     @Test
+    
     public void empilharDezElemento(){
         assertTrue(p.vazia());
         for(int i=0; i<10; i++){
