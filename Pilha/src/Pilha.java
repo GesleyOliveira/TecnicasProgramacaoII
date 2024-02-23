@@ -15,11 +15,7 @@ class Pilha {
     }
 
     boolean vazia() {
-        if(topo == 0){
-            return true;
-        } else {
-            return false;
-        }
+        return (topo==0);
     }
 
     Object verificaTopo() {
