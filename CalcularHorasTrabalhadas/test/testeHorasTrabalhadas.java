@@ -21,6 +21,7 @@ public class testeHorasTrabalhadas {
         /*5*/assertEquals(7.00, c.calculaHoras(6.00, 12.00), 0);
         /*6*/assertEquals(9.50, c.calculaHoras(6.00, 13.00), 0);
         /*7*/assertEquals(9.00, c.calculaHoras(17.00, 23.00), 0);
+        /*8*/assertEquals(17.50, c.calculaHoras(00.00, 09.00), 0);
 
     }
     

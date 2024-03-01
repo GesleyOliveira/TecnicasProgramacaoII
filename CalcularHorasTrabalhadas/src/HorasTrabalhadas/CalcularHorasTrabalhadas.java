@@ -29,6 +29,7 @@ public class CalcularHorasTrabalhadas{
         } if (horaFim < 8 && horaInicio > 0){
             horaTotal = horaTotal * 2;
         }
+        
         return horaTotal;
     }
     
