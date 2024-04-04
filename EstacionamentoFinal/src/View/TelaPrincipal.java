@@ -428,12 +428,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_cboxVeiculosItemStateChanged
 
     private void cboxVeiculosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboxVeiculosActionPerformed
-         txtbPeriodoPermanencia.setText(controle.calculaPermanencia(cboxVeiculos.getSelectedItem().toString()));
+         txtbPeriodoPermanencia.setText(controle.calculaPermanencia(cboxVeiculos.getSelectedItem().toString(), cboxMetricaCalculo.getSelectedItem().toString()));
     }//GEN-LAST:event_cboxVeiculosActionPerformed
 
     private void cboxMetricaCalculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboxMetricaCalculoActionPerformed
         /*Calcula o valor utilizando a metrica de calculo selecionada. */
-        MetricaCalculoEnum tipoSelecionado = MetricaCalculoEnum.valueOf(cboxMetricaCalculo.getSelectedItem().toString());
+        //MetricaCalculoEnum tipoSelecionado = MetricaCalculoEnum.valueOf(cboxMetricaCalculo.getSelectedItem().toString());
+        txtbValorEstacionamento.setText(controle.calculaPermanencia(cboxVeiculos.getSelectedItem().toString(), cboxMetricaCalculo.getSelectedItem().toString()));
         
         
     }//GEN-LAST:event_cboxMetricaCalculoActionPerformed

@@ -12,6 +12,7 @@ import java.util.List;
 public class Controlador {
     
     private List<ContaVeiculo> listaVeiculos;
+    //private List<VeiculoEstacionado> listaVeiculos;
     private Thread t0,t1;
     private PersistenciaDados DAO;
     
@@ -55,7 +56,7 @@ public class Controlador {
         //Utilize o objeto DAO
     }
     
-    public String calculaPermanencia(String placa){
+    /*public String calculaPermanencia(String placa){
         long retornoPermanencia = 0;
         for(int i=0;i<listaVeiculos.size();i++){
             if(placa.equals(listaVeiculos.get(i).getVeiculo().getPlaca())){
@@ -63,7 +64,35 @@ public class Controlador {
             }
         }
         return retornoPermanencia + " minutos";
+    }*/
+   // Método para calcular a permanência do veículo e retornar o valor do estacionamento
+    public String calculaPermanencia(String placa, String metricaSelecionada) {
+        long retornoPermanencia = 0;
+        for (int i = 0; i < listaVeiculos.size(); i++) {
+            if (placa.equals(listaVeiculos.get(i).getVeiculo().getPlaca())) {
+                long tempoPermanenciaMinutos = (Calendar.getInstance().getTimeInMillis() - listaVeiculos.get(i).getInicio()) / 60000;
+                // Calcula o valor do estacionamento com base na métrica selecionada
+                double valorEstacionamento = calcularValorEstacionamento(tempoPermanenciaMinutos, metricaSelecionada);
+                return valorEstacionamento + " reais"; // Ajuste conforme necessário
+            }
+        }
+        return "Veículo não encontrado"; // Se o veículo não estiver na lista
     }
+    
+    private double calcularValorEstacionamento(long tempoPermanenciaMinutos, String metricaSelecionada) {
+        // Implemente a lógica para calcular o valor do estacionamento com base na métrica selecionada
+        double valor = 0.0;
+        // Aqui você deve implementar o cálculo do valor do estacionamento de acordo com a métrica selecionada
+        // Exemplo:
+        // if (metricaSelecionada.equals("Métrica1")) {
+        //     valor = ...; // Cálculo para a métrica 1
+        // } else if (metricaSelecionada.equals("Métrica2")) {
+        //     valor = ...; // Cálculo para a métrica 2
+        // } e assim por diante...
+        return valor;
+    }
+}
+
     
     /*
             
@@ -75,4 +104,4 @@ public class Controlador {
     
    */
     
-}
+
