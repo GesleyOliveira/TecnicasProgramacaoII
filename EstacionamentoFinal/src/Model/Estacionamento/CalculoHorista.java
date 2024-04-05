@@ -7,10 +7,10 @@ public class CalculoHorista implements CalculoValor, Serializable{
     @Override
     public double calcular(long periodo, Veiculo veiculo) {
         //Periodo de tempo padrão em milisegundo para o calculo do valor = 60min * 60s * 1000mS
-        long tempoPadrao= 60*60*1000;
+        float tempoPadrao= 60*60*1000;
         double valorDiaria=veiculo.getTipo().umaHora;
         
-        return valorDiaria * Math.ceil(periodo / tempoPadrao);
+        return valorDiaria * (periodo / tempoPadrao);
     }
     
 }

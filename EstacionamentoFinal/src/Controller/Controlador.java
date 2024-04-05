@@ -22,7 +22,7 @@ public class Controlador {
     }
     
     public void addContaVeiculo(String nome, String placa, TipoVeiculoEnum tipo)throws Exception{
-        listaVeiculos.add(new ContaVeiculo(Calendar.getInstance().getTimeInMillis(), new Veiculo(nome, placa, tipo)));
+        listaVeiculos.add(new ContaVeiculo(Calendar.getInstance().getTimeInMillis() - (1000 * 60 * 60 * 2), new Veiculo(nome, placa, tipo)));
     }
     
     public String[][] listaVeiculosCadastrados() throws Exception{
@@ -45,53 +45,77 @@ public class Controlador {
         
     }
     
-    public void finalizarConta(String placaVeiculo,MetricaCalculoEnum metrica) throws Exception{
-        //Finaliza a conta, utilizando a metrica de calculo recebida como paramentro.
+    public void finalizarConta(String placaVeiculo) throws Exception{
+        //Finaliza a conta, utilizando a metrica de calculo recebida como parametro.
         // Se a metrica for AUTOMATICO, o sistema deverá verificar a opção mais barata e utiliza-la
         
-        // Altera o status para fechado e salva o registro.
+        //Altera o status para fechado e salva o registro.
         //Se valor da conta for zero retorna um erro.
         
         //Se não for possivel registra no BD, salve um backup local da listaVeiculos;
         //Utilize o objeto DAO
-    }
-    
-    /*public String calculaPermanencia(String placa){
-        long retornoPermanencia = 0;
-        for(int i=0;i<listaVeiculos.size();i++){
-            if(placa.equals(listaVeiculos.get(i).getVeiculo().getPlaca())){
-                retornoPermanencia = (Calendar.getInstance().getTimeInMillis() - listaVeiculos.get(i).getInicio()) / 60000;
-            }
+        int aux =  0;
+        for(int i=0; i < listaVeiculos.size(); i++){
+            if (listaVeiculos.get(i).getVeiculo().getPlaca() == placaVeiculo){
+                aux = i;
+            }         
         }
-        return retornoPermanencia + " minutos";
-    }*/
-   // Método para calcular a permanência do veículo e retornar o valor do estacionamento
-    public String calculaPermanencia(String placa, String metricaSelecionada) {
+        
+        listaVeiculos.get(aux).setStatus(StatusConta.FECHADO);
+        listaVeiculos.get(aux).setFim(Calendar.getInstance().getTimeInMillis());
+        
+        
+    }
+
+    public String calculaPermanencia(String placa) {
         long retornoPermanencia = 0;
+        String valor = "";
         for (int i = 0; i < listaVeiculos.size(); i++) {
             if (placa.equals(listaVeiculos.get(i).getVeiculo().getPlaca())) {
-                long tempoPermanenciaMinutos = (Calendar.getInstance().getTimeInMillis() - listaVeiculos.get(i).getInicio()) / 60000;
-                // Calcula o valor do estacionamento com base na métrica selecionada
-                double valorEstacionamento = calcularValorEstacionamento(tempoPermanenciaMinutos, metricaSelecionada);
-                return valorEstacionamento + " reais"; // Ajuste conforme necessário
+                double tempoPermanenciaMinutos = (Calendar.getInstance().getTimeInMillis() - listaVeiculos.get(i).getInicio()) / 60000;
+                return Double.toString(tempoPermanenciaMinutos); 
             }
         }
-        return "Veículo não encontrado"; // Se o veículo não estiver na lista
+        return "Veículo não encontrado"; 
     }
     
-    private double calcularValorEstacionamento(long tempoPermanenciaMinutos, String metricaSelecionada) {
-        // Implemente a lógica para calcular o valor do estacionamento com base na métrica selecionada
-        double valor = 0.0;
-        // Aqui você deve implementar o cálculo do valor do estacionamento de acordo com a métrica selecionada
-        // Exemplo:
-        // if (metricaSelecionada.equals("Métrica1")) {
-        //     valor = ...; // Cálculo para a métrica 1
-        // } else if (metricaSelecionada.equals("Métrica2")) {
-        //     valor = ...; // Cálculo para a métrica 2
-        // } e assim por diante...
-        return valor;
-    }
+    public String calcularValor(MetricaCalculoEnum metrica, String placa) {
+
+        String mensagem = "";
+        int aux =  0;
+        for(int i=0; i < listaVeiculos.size(); i++){
+            if (listaVeiculos.get(i).getVeiculo().getPlaca() == placa){
+                aux = i;
+            }         
+        }
+        long periodo = Calendar.getInstance().getTimeInMillis() - listaVeiculos.get(aux).getInicio();
+
+        if (metrica == MetricaCalculoEnum.UM_QUARTO_HORA) {
+            Calculo15Minutos calculo = new Calculo15Minutos();
+            mensagem += calculo.calcular(periodo, listaVeiculos.get(aux).getVeiculo());
+        } else if (metrica == MetricaCalculoEnum.HORA) {
+            CalculoHorista calculo = new CalculoHorista();
+            mensagem += calculo.calcular(periodo, listaVeiculos.get(aux).getVeiculo());
+        } else if (metrica == MetricaCalculoEnum.DIARIA) {
+            CalculoDiaria calculo = new CalculoDiaria();
+            mensagem += calculo.calcular(periodo, listaVeiculos.get(aux).getVeiculo());
+        } else {
+            double hora = periodo / 3600000;
+            if(hora<1){
+                return calcularValor(MetricaCalculoEnum.UM_QUARTO_HORA, placa);
+            } else if (hora>1 && hora < 12){
+                return calcularValor(MetricaCalculoEnum.HORA, placa);
+            } else {
+                return calcularValor(MetricaCalculoEnum.DIARIA, placa);
+            }
+        }
+        
+        return mensagem;
+        }   
+        
 }
+
+
 
     
     /*

@@ -413,7 +413,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void btoFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btoFinalizarActionPerformed
         try{
-        controle.finalizarConta(cboxVeiculos.getSelectedItem().toString(), MetricaCalculoEnum.valueOf(cboxMetricaCalculo.getSelectedItem().toString()));
+        controle.finalizarConta(cboxVeiculos.getSelectedItem().toString());
+        atualizaListaVeiculos();
         }catch(Exception e){
             JOptionPane.showMessageDialog(rootPane, e.getMessage());
         }
@@ -428,13 +429,15 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_cboxVeiculosItemStateChanged
 
     private void cboxVeiculosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboxVeiculosActionPerformed
-         txtbPeriodoPermanencia.setText(controle.calculaPermanencia(cboxVeiculos.getSelectedItem().toString(), cboxMetricaCalculo.getSelectedItem().toString()));
+         txtbPeriodoPermanencia.setText(controle.calculaPermanencia(cboxVeiculos.getSelectedItem().toString()));
     }//GEN-LAST:event_cboxVeiculosActionPerformed
 
     private void cboxMetricaCalculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboxMetricaCalculoActionPerformed
         /*Calcula o valor utilizando a metrica de calculo selecionada. */
         //MetricaCalculoEnum tipoSelecionado = MetricaCalculoEnum.valueOf(cboxMetricaCalculo.getSelectedItem().toString());
-        txtbValorEstacionamento.setText(controle.calculaPermanencia(cboxVeiculos.getSelectedItem().toString(), cboxMetricaCalculo.getSelectedItem().toString()));
+        if(cboxVeiculos.getSelectedItem() != null){
+            txtbValorEstacionamento.setText(controle.calcularValor(MetricaCalculoEnum.valueOf(cboxMetricaCalculo.getSelectedItem().toString()), cboxVeiculos.getSelectedItem().toString()));
+        }
         
         
     }//GEN-LAST:event_cboxMetricaCalculoActionPerformed
