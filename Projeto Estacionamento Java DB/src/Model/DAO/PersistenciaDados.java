@@ -1,7 +1,7 @@
 
 package Model.DAO;
 
-import Model.Estacionamento.ContaVeiculo;
+import Model.Estacionamento.Conta_Veiculo;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -12,19 +12,19 @@ import java.util.List;
 
 public class PersistenciaDados {
     
-    private List<ContaVeiculo> listaVeiculos;
+    private List<Conta_Veiculo> listaVeiculos;
     
     String caminhoPadrao= "C:\\Users\\Alunos\\Desktop\\estacionamento";
     int countBackup=0;
     public PersistenciaDados() {
     }
     
-    public boolean criarNovoRegistro(ContaVeiculo elemento){
+    public boolean criarNovoRegistro(Conta_Veiculo elemento){
         //Realiza o acesso ao BD e cria um novo registro do BD retornando True;
         //Senão for possivel registrar do BD retorna False.
         return false;
     }
-    public boolean salvarBackupLocal(List<ContaVeiculo> listaRegistros)throws Exception{
+    public boolean salvarBackupLocal(List<Conta_Veiculo> listaRegistros)throws Exception{
         //Cria um novo arquivo de backup da lista de registros de ContaEstacionamento       
         gravarBackup(caminhoPadrao + "backup"+ countBackup+".dat", listaRegistros);
         return false;

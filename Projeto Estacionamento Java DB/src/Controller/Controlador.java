@@ -3,6 +3,7 @@ package Controller;
 
 import Model.DAO.*;
 import Model.Estacionamento.*;
+import Model.EstacionamentoDAO.VeiculoDAO;
 import View.TelaPrincipal.*;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -11,27 +12,27 @@ import java.util.List;
 
 public class Controlador {
     
-    private List<ContaVeiculo> listaVeiculos;
+    private List<Conta_Veiculo> listaVeiculos;
     //private List<VeiculoEstacionado> listaVeiculos;
     private Thread t0,t1;
     private PersistenciaDados DAO;
     
     public Controlador(){
-        listaVeiculos=new ArrayList<ContaVeiculo>();  
+        listaVeiculos=new ArrayList<Conta_Veiculo>();  
         DAO=new PersistenciaDados();
     }
     
     public void addContaVeiculo(String nome, String placa, TipoVeiculoEnum tipo)throws Exception{
-        listaVeiculos.add(new ContaVeiculo(Calendar.getInstance().getTimeInMillis() - (1000 * 60 * 60 * 2), new Veiculo(nome, placa, tipo)));
+        listaVeiculos.add(new Conta_Veiculo(Calendar.getInstance().getTimeInMillis() - (1000 * 60 * 60 * 2), new Veiculo(nome, placa, tipo)));
     }
     
     public String[][] listaVeiculosCadastrados() throws Exception{
         
         String[][] aux=new String[listaVeiculos.size()][6];
-        ContaVeiculo conta;
+        Conta_Veiculo conta;
         Date dataAux;
         for(int i=0;i<listaVeiculos.size();i++){
-            conta=(ContaVeiculo) listaVeiculos.get(i);
+            conta=(Conta_Veiculo) listaVeiculos.get(i);
             aux[i][0]=conta.getVeiculo().getNome();
             aux[i][1]=conta.getVeiculo().getPlaca();
             aux[i][2]=conta.getVeiculo().getTipo().toString();
@@ -122,11 +123,16 @@ public class Controlador {
         }  
     
     public void salvar(){
+        
+        VeiculoDAO veiculo = new VeiculoDAO();
+        veiculo.inserir(listaVeiculos.get(0).getVeiculo());
+        
+        /*     *****  Para usar em salvar Offline  *****
         PersistenciaDados salvar = new PersistenciaDados();
         try{
         salvar.salvarBackupLocal(listaVeiculos);
         }catch(Exception e){
-        }
+        }*/
     }
     public void carregar(){
     PersistenciaDados carregar = new PersistenciaDados();
