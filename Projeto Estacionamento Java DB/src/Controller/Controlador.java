@@ -81,7 +81,7 @@ public class Controlador {
     }
     
       public List carregarPlacas(){
-        List<String> placas = new ArrayList<String>();
+        List<String> placas = new ArrayList<>();
        for(int i = 0; i < listaVeiculos.size(); i++){
        placas.add(listaVeiculos.get(i).getVeiculo().getPlaca());
        }
@@ -93,7 +93,7 @@ public class Controlador {
         String mensagem = "";
         int aux =  0;
         for(int i=0; i < listaVeiculos.size(); i++){
-            if (listaVeiculos.get(i).getVeiculo().getPlaca() == placa){
+            if (listaVeiculos.get(i).getVeiculo().getPlaca().equals(placa)){
                 aux = i;
             }         
         }
